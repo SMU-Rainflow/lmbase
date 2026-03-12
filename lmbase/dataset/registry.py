@@ -1,75 +1,43 @@
 """
 An interface to registry the datasets.
-
-The samples of each dataset within the lmbase are made in a consistent format.
-
-Note that at the end of sample `question`, we add the solution flag prompt defined in `tmrl.identifier.py`. This is to prompt the model to add the final
-solution within a specific identifier for the simple extraction.
 """
 
 import logging
-from lmbase.dataset import (
-    gsm8k,
-    math,
-    aime2024,
-    aime2025,
-    aime19832024,
-    theoremqa,
-    mmmu,
-    scienceqa,
-    humaneval,
-    humanevalplus,
-    codealpaca,
-    hfcodealpaca,
-    mathvision,
-    mathvista,
-    aokvqa,
-    vqav2,
-    mathverse,
-    gqa,
-    dapomath,
-    math500,
-    wemath,
-    wemath2pro,
-    geometry3k,
-    mmlu,
-    gpqad,
-    medqa,
-    arc,
-    finagent,
-    financebench,
-)
+
 
 data_factory = {
-    "gsm8k": gsm8k.GSM8KDataset,
-    "math": math.MATHDataset,
-    "mmmu": mmmu.MMMUDataset,
-    "scienceqa": scienceqa.ScienceQADataset,
-    "aime2024": aime2024.AIME2024Dataset,
-    "aime2025": aime2025.AIME2025Dataset,
-    "aime19832024": aime19832024.AIME19832024Dataset,
-    "humaneval": humaneval.HumanEvalDataset,
-    "humanevalplus": humanevalplus.HumanEvalPlusDataset,
-    "codealpaca": codealpaca.CodeAlpacaDataset,
-    "hfcodealpaca": hfcodealpaca.CodeAlpacaDataset,
-    "theoremqa": theoremqa.TheoremQADataset,
-    "mathvision": mathvision.MathVisionDataset,
-    "mathvista": mathvista.MathVistaDataset,
-    "aokvqa": aokvqa.AOKVQADataset,
-    "vqav2": vqav2.VQAv2Dataset,
-    "mathverse": mathverse.MathVerseDataset,
-    "gqa": gqa.GQADataset,
-    "dapomath": dapomath.DAPOMathDataset,
-    "math500": math500.Math500Dataset,
-    "wemath": wemath.WeMathDataset,
-    "wemath2pro": wemath2pro.WeMath2ProDataset,
-    "geometry3k": geometry3k.Geometry3kDataset,
-    "mmlu": mmlu.MMLUDataset,
-    "gpqad": gpqad.GPQADiamondDataset,
-    "medqa": medqa.MedQADataset,
-    "arc": arc.ARCDataset,
-    "finagent": finagent.FinAgentDataset,
-    "financebench": financebench.FinanceBenchDataset,
+    "gsm8k": ("lmbase.dataset.gsm8k", "GSM8KDataset"),
+    "math": ("lmbase.dataset.math", "MATHDataset"),
+    "mmmu": ("lmbase.dataset.mmmu", "MMMUDataset"),
+    "scienceqa": ("lmbase.dataset.scienceqa", "ScienceQADataset"),
+    "aime2024": ("lmbase.dataset.aime2024", "AIME2024Dataset"),
+    "aime2025": ("lmbase.dataset.aime2025", "AIME2025Dataset"),
+    "aime19832024": ("lmbase.dataset.aime19832024", "AIME19832024Dataset"),
+    "humaneval": ("lmbase.dataset.humaneval", "HumanEvalDataset"),
+    "humanevalplus": ("lmbase.dataset.humanevalplus", "HumanEvalPlusDataset"),
+    "codealpaca": ("lmbase.dataset.codealpaca", "CodeAlpacaDataset"),
+    "hfcodealpaca": ("lmbase.dataset.hfcodealpaca", "CodeAlpacaDataset"),
+    "theoremqa": ("lmbase.dataset.theoremqa", "TheoremQADataset"),
+    "mathvision": ("lmbase.dataset.mathvision", "MathVisionDataset"),
+    "mathvista": ("lmbase.dataset.mathvista", "MathVistaDataset"),
+    "aokvqa": ("lmbase.dataset.aokvqa", "AOKVQADataset"),
+    "vqav2": ("lmbase.dataset.vqav2", "VQAv2Dataset"),
+    "mathverse": ("lmbase.dataset.mathverse", "MathVerseDataset"),
+    "gqa": ("lmbase.dataset.gqa", "GQADataset"),
+    "dapomath": ("lmbase.dataset.dapomath", "DAPOMathDataset"),
+    "math500": ("lmbase.dataset.math500", "Math500Dataset"),
+    "wemath": ("lmbase.dataset.wemath", "WeMathDataset"),
+    "wemath2pro": ("lmbase.dataset.wemath2pro", "WeMath2ProDataset"),
+    "geometry3k": ("lmbase.dataset.geometry3k", "Geometry3kDataset"),
+    "mmlu": ("lmbase.dataset.mmlu", "MMLUDataset"),
+    "gpqad": ("lmbase.dataset.gpqad", "GPQADiamondDataset"),
+    "medqa": ("lmbase.dataset.medqa", "MedQADataset"),
+    "arc": ("lmbase.dataset.arc", "ARCDataset"),
+    "finagent": ("lmbase.dataset.finagent", "FinAgentDataset"),
+    "financebench": ("lmbase.dataset.financebench", "FinanceBenchDataset"),
+    "hotpotqa": ("lmbase.dataset.hotpotqa_", "HotpotQADataset"),
+    "multihoprag": ("lmbase.dataset.multihoprag", "MultiHopRAGDataset"),
+    "concurrentqa": ("lmbase.dataset.concurrentqa", "ConcurrentQADataset"),
 }
 
 
@@ -104,23 +72,27 @@ hf_datasets = {
     "arc": "allenai/ai2_arc",
     "finagent": "vals-ai/finance_agent_benchmark",
     "financebench": "PatronusAI/financebench",
+    "hotpotqa": "hotpotqa/hotpot_qa",
+    "multihoprag": "yixuantt/MultiHopRAG",
+    "concurrentqa": "stanfordnlp/concurrentqa-retrieval",
 }
 
 
 def get(config: dict, split="train"):
     """Get the dataset."""
-
-    data_name = config["data_name"].lower()
+    data_name= config["data_name"].lower()
+    
+    if data_name not in hf_datasets:
+        raise KeyError(f"'{data_name}' - Unknown dataset. Available: {list(hf_datasets.keys())}")
+    
     hf_dataname = hf_datasets[data_name]
-    logging.info(
-        "---> Logging %s data from %s dataset linked to HF %s",
-        split,
-        data_name,
-        hf_dataname,
-    )
-    dataset = data_factory[data_name](
-        split=split, hf_dataname=hf_dataname, config=config
-    )
+    logging.info("---> Loading %s data from %s (HF: %s)", split, data_name, hf_dataname)
+    
+    # Lazy import
+    module_path, class_name= data_factory[data_name]
+    module = __import__(module_path, fromlist=[class_name])
+    dataset_class = getattr(module, class_name)
+    
+    dataset = dataset_class(split=split, hf_dataname=hf_dataname, config=config)
     logging.info("   - Obtained %s samples", len(dataset))
-
     return dataset
