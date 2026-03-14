@@ -35,7 +35,7 @@ data_factory = {
     "arc": ("lmbase.dataset.arc", "ARCDataset"),
     "finagent": ("lmbase.dataset.finagent", "FinAgentDataset"),
     "financebench": ("lmbase.dataset.financebench", "FinanceBenchDataset"),
-    "hotpotqa": ("lmbase.dataset.hotpotqa_", "HotpotQADataset"),
+    "hotpotqa": ("lmbase.dataset.hotpotqa", "HotpotQADataset"),
     "multihoprag": ("lmbase.dataset.multihoprag", "MultiHopRAGDataset"),
     "concurrentqa": ("lmbase.dataset.concurrentqa", "ConcurrentQADataset"),
 }
@@ -80,19 +80,21 @@ hf_datasets = {
 
 def get(config: dict, split="train"):
     """Get the dataset."""
-    data_name= config["data_name"].lower()
-    
+    data_name = config["data_name"].lower()
+
     if data_name not in hf_datasets:
-        raise KeyError(f"'{data_name}' - Unknown dataset. Available: {list(hf_datasets.keys())}")
-    
+        raise KeyError(
+            f"'{data_name}' - Unknown dataset. Available: {list(hf_datasets.keys())}"
+        )
+
     hf_dataname = hf_datasets[data_name]
     logging.info("---> Loading %s data from %s (HF: %s)", split, data_name, hf_dataname)
-    
+
     # Lazy import
-    module_path, class_name= data_factory[data_name]
+    module_path, class_name = data_factory[data_name]
     module = __import__(module_path, fromlist=[class_name])
     dataset_class = getattr(module, class_name)
-    
+
     dataset = dataset_class(split=split, hf_dataname=hf_dataname, config=config)
     logging.info("   - Obtained %s samples", len(dataset))
     return dataset
