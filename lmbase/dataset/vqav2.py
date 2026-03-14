@@ -1,5 +1,30 @@
 """
 Interface of the VQAv2 dataset.
+
+Dataset Source: https://huggingface.co/datasets/lmms-lab/VQAv2
+
+Description:
+    Visual Question Answering (VQA) v2.0 dataset containing open-ended questions
+    about images. A large-scale dataset for visual understanding with over 769K
+    question-answer pairs.
+
+Size: ~30.7 GB, ~769,541 rows
+
+Splits:
+    - train: Training set
+    - validation: Validation set (~214,354 examples)
+    - test: Test set
+
+Features:
+    - question_id: Unique question identifier
+    - question: The question text
+    - answer: Answer(s)
+    - image: Associated image
+    - question_type: Type of question
+    - answer_type: Type of answer
+
+License: Not specified (see dataset repository)
+Language: English
 """
 
 import os

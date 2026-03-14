@@ -6,6 +6,22 @@ Checks:
 - Standardized sample content (question, groundtruth)
 - Conversion to LM message format
 - Dataset hook formatting via `lm_format_function`
+
+Usage:
+    # Run the test
+    python examples/uTEST/test_data/test_hotpotqa.py
+
+Expected Output:
+    - Dataset: <lmbase.dataset.hotpotqa.HotpotQADataset object>
+    - Standardized sample: TextSample with question, groundtruth, cot_answer fields
+    - Question: The formatted question with context
+    - Groundtruth: The expected answer string
+    - Message format: List of message dicts with role and content
+    - Formatted via dataset hook: Same as message format
+
+Requirements:
+    - HotpotQA dataset will be loaded from HuggingFace (hotpotqa/hotpot_qa)
+    - Internet connection required for initial dataset download
 """
 
 from lmbase.dataset import registry as dataset_registry
@@ -20,9 +36,8 @@ def run():
     ds = dataset_registry.get(
         {
             "data_name": "hotpotqa",
-            "hf_dataname": "hotpotqa/hotpot_qa",
-            "hf_subset": "distractor",
             "data_path": "EXPERIMENT/data/hotpotqa",
+            "subset": "distractor",
         },
         "train",
     )
@@ -36,10 +51,10 @@ def run():
     print(s)
 
     print("\nQuestion:")
-    print(s['question'])
+    print(s["question"])
 
     print("\nGroundtruth:")
-    print(s['groundtruth'])
+    print(s["groundtruth"])
 
     # 转换为 message 格式
     f = formatter.map_sample(s, to_format="message")

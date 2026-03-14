@@ -1,5 +1,28 @@
 """
 Interface of the AIME2025 dataset.
+
+Dataset Source: https://huggingface.co/datasets/opencompass/AIME2025
+
+Description:
+    Math problems from the 2025 American Invitational Mathematics Examination (AIME).
+    Contains problems from both AIME I and AIME II (15 problems each).
+
+Size: ~10.9k tokens, ~30 samples
+
+Configurations:
+    - AIME2025-I: First AIME exam (15 problems)
+    - AIME2025-II: Second AIME exam (15 problems)
+    Config setting in code: subset="AIME2025-I" or subset="AIME2025-II"
+
+Splits:
+    - test: Test set (15 examples per configuration)
+
+Features:
+    - question: The math problem statement
+    - answer: Final answer
+
+License: MIT
+Language: English
 """
 
 from datasets import load_dataset, config as hf_config

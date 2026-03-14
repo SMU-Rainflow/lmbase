@@ -1,5 +1,28 @@
 """
 Interface of the AIME19832024 dataset.
+
+Dataset Source: https://huggingface.co/datasets/di-zhang-fdu/AIME_1983_2024
+
+Description:
+    A comprehensive collection of AIME (American Invitational Mathematics Examination)
+    problems spanning from 1983 to 2024 (Part 2). Contains competition math problems
+    with integer answers.
+
+Size: ~933 rows
+
+Splits:
+    - train: Training set (all examples)
+
+Features:
+    - ID: Unique identifier
+    - Question: The math problem statement
+    - Answer: Final answer (integer)
+    - Year: Competition year
+    - Problem Number: Problem number in that year's exam
+
+License: MIT
+Language: English
+Note: Intended for benchmarking, not for training
 """
 
 from lmbase.dataset.base import TextSample, VisualTextBase

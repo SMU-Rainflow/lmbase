@@ -1,5 +1,27 @@
 """
 Independent test for MultiHopRAG dataset loading and formatting.
+
+Checks:
+- Registry load for `train` split
+- Standardized sample content (question, groundtruth)
+- Conversion to LM message format
+- Dataset hook formatting via `lm_format_function`
+
+Usage:
+    # Run the test
+    python examples/uTEST/test_data/test_multihoprag.py
+
+Expected Output:
+    - Dataset: <lmbase.dataset.multihoprag.MultiHopRAGDataset object>
+    - Standardized sample: VisualTextSample with question, groundtruth, cot_answer fields
+    - Question: The formatted question with evidence documents
+    - Groundtruth: The expected answer string
+    - Message format: List of message dicts with role and content
+    - Formatted via dataset hook: Same as message format
+
+Requirements:
+    - MultiHopRAG dataset will be loaded from HuggingFace (yixuantt/MultiHopRAG)
+    - Internet connection required for initial dataset download
 """
 
 from lmbase.dataset import registry as dataset_registry
@@ -14,9 +36,7 @@ def run():
     ds = dataset_registry.get(
         {
             "data_name": "multihoprag",
-            "hf_dataname": "yixuantt/MultiHopRAG",
             "data_path": "EXPERIMENT/data/multihoprag",
-           "hf_subset": "MultiHopRAG",  # 指定配置
         },
         "train",
     )
@@ -30,10 +50,10 @@ def run():
     print(s)
 
     print("\nQuestion:")
-    print(s['question'])
+    print(s["question"])
 
     print("\nGroundtruth:")
-    print(s['groundtruth'])
+    print(s["groundtruth"])
 
     # 转换为 message format
     f = formatter.map_sample(s, to_format="message")

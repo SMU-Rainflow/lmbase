@@ -1,5 +1,36 @@
 """
 Interface of the MMLU dataset.
+
+Dataset Source: https://huggingface.co/datasets/cais/mmlu
+
+Description:
+    Massive Multitask Language Understanding (MMLU) benchmark for evaluating
+    large language models across 57 diverse subjects including math, history,
+    science, law, and more. Multiple-choice questions covering humanities,
+    social sciences, STEM, and professional knowledge.
+
+Size: ~57,303 MB, ~116,000 questions
+
+Configurations:
+    - all: All subjects combined
+    - Individual subjects: abstract_algebra, anatomy, astronomy, business_ethics,
+      clinical_knowledge, college_biology, college_chemistry, etc.
+    Config setting in code: subset="all" or subset="<subject_name>"
+
+Splits:
+    - auxiliary_train: Auxiliary training set (~99.8k examples)
+    - test: Test set
+    - validation: Validation set
+    - dev: Development set
+
+Features:
+    - question: The question text
+    - choices: Multiple choice options (A, B, C, D)
+    - answer: Correct answer
+
+License: MIT
+Language: English
+Paper: Measuring Massive Multitask Language Understanding
 """
 
 from datasets import load_dataset

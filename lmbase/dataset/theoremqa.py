@@ -1,5 +1,30 @@
 """
 Interface of the TheoremQA dataset.
+
+Dataset Source: https://huggingface.co/datasets/TIGER-Lab/TheoremQA
+
+Description:
+    A dataset of 800 high-quality question-answer pairs covering over 350 theorems
+    across Math, EE&CS, Physics, and Finance. Designed to evaluate LLMs' ability
+    to apply theorems to solve complex university-level questions.
+
+Size: ~800 rows
+
+Splits:
+    - train: Training set
+    - validation: Validation set
+    - test: Test set
+
+Features:
+    - Question: The question text
+    - Answer: Final answer
+    - Picture: Associated image (if any)
+    - Answer_type: Type of answer (numerical, text, etc.)
+    - Theorem: Related theorem
+
+License: Not specified (see dataset repository)
+Language: English
+Paper: arXiv:2305.12524
 """
 
 import os

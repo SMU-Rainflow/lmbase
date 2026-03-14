@@ -1,5 +1,28 @@
 """
 Interface of the MedQA dataset.
+
+Dataset Source: https://huggingface.co/datasets/openlifescienceai/medqa
+
+Description:
+    A medical question-answering dataset containing USMLE-style clinical questions
+    with multiple-choice answers. Designed for training and evaluating medical AI
+    models.
+
+Size: ~12,700 rows
+
+Splits:
+    - train: Training set
+    - test: Test set
+    - dev: Development/validation set
+
+Features:
+    - data: Contains question content
+    - Question: The clinical question
+    - Answer: Correct answer
+    - Options: Multiple choice options (A, B, C, D)
+
+License: Not specified (see dataset repository)
+Language: English
 """
 
 from lmbase.dataset.base import TextSample, VisualTextBase

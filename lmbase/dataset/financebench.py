@@ -1,9 +1,35 @@
 """
 Interface of the FinanceBench dataset.
 
-The dataset is from https://huggingface.co/datasets/PatronusAI/financebench
-It contains financial document QA tasks with SEC filings as source documents.
-Split: train
+Dataset Source: https://huggingface.co/datasets/PatronusAI/financebench
+
+Description:
+    A collection of 150 annotated financial questions designed to evaluate large
+    language models on open-book financial question answering. Questions are about
+    publicly traded companies with corresponding answers and evidence strings.
+
+Size: ~958 KB, 150 rows
+
+Splits:
+    - train: All 150 examples (single split)
+
+Features:
+    - financebench_id: Unique identifier for the sample
+    - question: Financial question about the company
+    - answer: The answer to the question
+    - justification: Chain-of-thought explanation
+    - company: Company name
+    - doc_name: Document name
+    - doc_link: URL to the source PDF document
+    - question_type: Type of question (e.g., numerical, categorical)
+    - question_reasoning: Reasoning type required
+    - evidence: Supporting evidence
+    - gics_sector: Global Industry Classification Standard sector
+    - doc_type: Type of document (e.g., 10-K, 10-Q)
+    - doc_period: Document period
+
+License: Not specified (see dataset repository for details)
+Paper: arXiv:2311.11944
 """
 
 import os

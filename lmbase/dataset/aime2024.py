@@ -1,5 +1,28 @@
 """
 Interface of the AIME2024 dataset.
+
+Dataset Source: https://huggingface.co/datasets/HuggingFaceH4/aime_2024
+
+Description:
+    A collection of 30 math problems from the 2024 AIME I and II tests.
+    AIME (American Invitational Mathematics Examination) is a prestigious
+    math competition for high school students.
+
+Size: ~81.7 KB, 30 rows
+
+Splits:
+    - train: 30 examples (single split)
+
+Features:
+    - id: Unique identifier
+    - problem: The math problem statement
+    - solution: Step-by-step solution
+    - answer: Final answer (integer 0-999)
+    - url: Source URL
+    - year: Competition year
+
+License: Not specified (see dataset repository)
+Language: English
 """
 
 from lmbase.dataset.base import TextSample, VisualTextBase

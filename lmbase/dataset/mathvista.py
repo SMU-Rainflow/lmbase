@@ -1,9 +1,31 @@
 """
 Interface of the MathVista dataset.
 
-The dataset is from https://huggingface.co/datasets/AI4Math/MathVista
-It contains mathematical reasoning tasks with visual elements.
-Splits: testmini, test
+Dataset Source: https://huggingface.co/datasets/AI4Math/MathVista
+
+Description:
+    A comprehensive benchmark for mathematical reasoning within visual contexts.
+    Contains 6,141 examples from 31 datasets, including 3 newly created datasets
+    (IQTest, FunctionQA, PaperQA) and 28 existing multimodal datasets.
+
+Size: ~6,141 rows
+
+Splits:
+    - testmini: Development set (1,000 examples)
+    - test: Full test set (5,141 examples, answers not released)
+
+Features:
+    - question: The question text
+    - choices: Multiple choice options
+    - answer: Correct answer
+    - explanation: Detailed explanation
+    - image: Associated image
+    - query_type: Type of query
+    - answer_type: Type of answer
+
+License: CC-BY-SA-4.0
+Language: English, Chinese, Persian
+Paper: arXiv:2310.02255
 """
 
 import os

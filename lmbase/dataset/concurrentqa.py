@@ -1,20 +1,35 @@
 """
 Interface of the ConcurrentQA dataset.
+
+Dataset Source: https://huggingface.co/datasets/stanfordnlp/concurrentqa-retrieval
+
+Description:
+    A question-answering dataset designed for concurrent retrieval across multiple
+    data sources (Wikipedia and emails). Useful for studying generalization and
+    privacy in retrieval systems.
+
+Size: ~18,400 rows total
+
+Splits:
+    - train: 15,200 examples
+    - validation: 1,600 examples
+    - test: 1,600 examples
+
+Features:
+    - _id: Unique identifier
+    - question: The question text
+    - answers: List of possible answers
+    - pos_paras: Positive paragraphs (relevant documents)
+    - neg_paras: Negative paragraphs (irrelevant documents)
+
+License: MIT
+Language: English
 """
-from datasets import load_dataset
+
 from lmbase.dataset.base import VisualTextSample, VisualTextBase
 
 
 class ConcurrentQADataset(VisualTextBase):
-
-    def __init__(self, split="train", hf_dataname=None, config=None):
-        super().__init__(split=split, hf_dataname=hf_dataname, config=config)
-
-    def map_dataset(self):
-        self.hf_dataset = load_dataset(
-            self.hf_dataname,
-            split=self.split
-        )
 
     def to_format(self, sample):
 
@@ -47,5 +62,5 @@ Question:
             cot_answer=answer,
             main_id=sample["_id"],
             split=self.split,
-            sample_info=sample
+            sample_info=sample,
         )

@@ -1,5 +1,31 @@
 """
 Interface of the ARC dataset.
+
+Dataset Source: https://huggingface.co/datasets/allenai/ai2_arc
+
+Description:
+    AI2 Reasoning Challenge (ARC) dataset with ~7,787 grade-school level science
+    multiple-choice questions. Divided into Challenge (harder) and Easy subsets.
+
+Size: ~1.5 GB, ~7,787 questions
+
+Configurations:
+    - ARC-Challenge: Harder questions (1,119 train, 299 val, 1,172 test)
+    - ARC-Easy: Easier questions (2,251 train, 570 val, 2,376 test)
+    Config setting in code: subset="ARC-Challenge" or subset="ARC-Easy"
+
+Splits:
+    - train: Training set
+    - validation: Validation set
+    - test: Test set
+
+Features:
+    - question: The question text
+    - choices: Multiple choice options (A, B, C, D)
+    - answerKey: Correct answer letter
+
+License: Not specified (see dataset repository)
+Language: English
 """
 
 from datasets import load_dataset

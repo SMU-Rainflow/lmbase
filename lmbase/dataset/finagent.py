@@ -1,8 +1,29 @@
 """
 Interface of the Finance Agent Benchmark dataset.
 
-The dataset is from https://huggingface.co/datasets/vals-ai/finance_agent_benchmark
-It contains financial research tasks with expert answers and rubrics.
+Dataset Source: https://huggingface.co/datasets/vals-ai/finance_agent_benchmark
+
+Description:
+    A benchmark dataset with 537 expert-authored financial research questions
+    across 9 task categories. Evaluates AI models on real-world financial analyst
+    tasks including data retrieval, market research, and financial projections.
+    Developed by Vals AI in collaboration with Stanford and financial experts.
+
+Size: ~537 questions
+
+Splits:
+    - train: All examples (single split)
+
+Features:
+    - question: The financial research question
+    - answer: Expert answer
+    - rubric: Evaluation rubric
+    - task_category: Type of financial task
+
+License: CC BY 4.0
+Language: English
+Paper: arXiv:2508.00828
+Note: Requires tool use (search, SEC filings access) for best performance
 """
 
 from datasets import load_dataset

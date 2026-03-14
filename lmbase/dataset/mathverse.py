@@ -1,5 +1,32 @@
 """
 Interface of the MathVerse dataset.
+
+Dataset Source: https://huggingface.co/datasets/AI4Math/MathVerse
+
+Description:
+    A benchmark to evaluate whether multi-modal large language models (MLLMs) can
+    genuinely understand visual diagrams for mathematical reasoning. Contains 2,612
+    high-quality math problems with diagrams, each transformed into 6 versions with
+    varying multimodal content, totaling 15,672 test samples.
+
+Size: ~167 MB, ~4,728 samples (2,612 unique problems)
+
+Splits:
+    - train: Training set
+    - validation: Validation set
+    - test: Test set
+    - testmini: Smaller subset for development
+
+Features:
+    - question: The math problem
+    - answer: Final answer
+    - image: Associated diagram/image
+    - subject: Mathematical subject
+    - level: Difficulty level
+
+License: Not specified (see dataset repository)
+Language: English
+Paper: arXiv:2403.14624
 """
 
 import os
@@ -158,7 +185,9 @@ class MathVerseDataset(VisualTextBase):
                         for letter, opt in zip(option_letters, options)
                     ]
                 )
-                question = f"{question}{self.SOLUTION_FORMAT_PROMPT}\nOptions:\n{options_str}"
+                question = (
+                    f"{question}{self.SOLUTION_FORMAT_PROMPT}\nOptions:\n{options_str}"
+                )
             except Exception as e:
                 logging.warning(
                     "Failed to parse options for sample %s: %s",

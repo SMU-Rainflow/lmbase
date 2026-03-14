@@ -1,5 +1,28 @@
 """
 Interface of the geometry3k dataset.
+
+Dataset Source: https://huggingface.co/datasets/hiyouga/geometry3k
+
+Description:
+    A visual question answering dataset focused on geometry problems. Contains
+    geometry diagrams with problem statements and multiple-choice answers.
+
+Size: ~61.4 MB, ~3,002 rows
+
+Splits:
+    - train: 2,101 examples
+    - validation: 300 examples
+    - test: 601 examples
+
+Features:
+    - image: Geometry diagram
+    - problem: Problem statement
+    - label: Answer label
+    - choices: Multiple choice options
+    - ground_truth: Correct answer
+
+License: MIT
+Language: English
 """
 
 import os

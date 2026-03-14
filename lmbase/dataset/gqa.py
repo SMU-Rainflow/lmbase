@@ -1,9 +1,30 @@
 """
 Interface of the GQA dataset.
 
-This implementation follows the VisualTextBase pattern and formats samples
-for vision-language model evaluation. It saves associated images and constructs
-question text with explicit image tokens when present.
+Dataset Source: https://huggingface.co/datasets/lmms-lab/GQA
+
+Description:
+    A large-scale visual question answering dataset for real-world visual reasoning
+    and compositional question answering. Contains ~22 million questions generated
+    from Visual Genome scene graphs with functional programs.
+
+Size: ~30.1 GB, ~22 million questions
+
+Splits:
+    - train: Training set
+    - validation: Validation set
+    - test: Test set
+
+Features:
+    - question: The question text
+    - answer: Answer
+    - image: Associated image
+    - question_id: Unique identifier
+    - fullAnswer: Detailed answer
+
+License: Not specified (see dataset repository)
+Language: English
+Paper: CVPR 2019 - GQA: A New Dataset for Real-World Visual Reasoning
 """
 
 import os

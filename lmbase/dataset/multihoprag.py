@@ -1,5 +1,28 @@
 """
 Interface of the MultiHopRAG dataset.
+
+Dataset Source: https://huggingface.co/datasets/yixuantt/MultiHopRAG
+
+Description:
+    A benchmark dataset for evaluating retrieval-augmented generation on multi-hop
+    queries. Designed for complex question answering requiring multi-hop reasoning
+    across multiple documents.
+
+Size: ~2,560 rows
+
+Splits:
+    - train: Training set for model training
+    - corpus: Document corpus for retrieval
+
+Features:
+    - query: The multi-hop question
+    - answer: The answer to the question
+    - evidence_list: List of evidence documents with title, fact, and source
+    - question_type: Type of question (e.g., comparison, bridge)
+
+License: ODC-By (Open Data Commons Attribution License)
+Paper: arXiv:2401.15391 "MultiHop-RAG: Benchmarking Retrieval-Augmented Generation for Multi-Hop Queries"
+Language: English
 """
 
 import os

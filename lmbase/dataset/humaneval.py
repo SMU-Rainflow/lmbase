@@ -1,5 +1,27 @@
 """
 Interface of the HumanEval dataset.
+
+Dataset Source: https://huggingface.co/datasets/openai/openai_humaneval
+
+Description:
+    A collection of 164 handcrafted Python programming problems designed to evaluate
+    code generation models. Problems are handwritten by OpenAI engineers to ensure
+    they were not part of training data.
+
+Size: ~194 KB, 164 rows
+
+Splits:
+    - test: 164 examples (test set only, no train/validation)
+
+Features:
+    - task_id: Unique task identifier
+    - prompt: Function signature and docstring
+    - canonical_solution: Reference solution
+    - test: Test cases for verification
+    - entry_point: Function entry point name
+
+License: MIT
+Language: Python
 """
 
 from lmbase.dataset.base import TextCodeSample, VisualTextBase

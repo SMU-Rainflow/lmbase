@@ -1,5 +1,25 @@
 """
 Interface of the We-Math dataset.
+
+Dataset Source: https://huggingface.co/datasets/We-Math/We-Math
+
+Description:
+    A multimodal math dataset focusing on properties of squares, circle circumference,
+    and sectors. Contains visual math problems with images.
+
+Size: ~1,740 rows
+
+Splits:
+    - default: Full dataset (1,740 examples)
+    - testmini: Smaller subset for development
+
+Features:
+    - question: The math problem
+    - answer: Final answer
+    - image: Associated image
+
+License: CC BY-NC 4.0
+Language: English
 """
 
 import os
@@ -123,7 +143,9 @@ class WeMathDataset(VisualTextBase):
                         for letter, opt in zip(option_letters, options)
                     ]
                 )
-                question = f"{question}{self.SOLUTION_FORMAT_PROMPT}\nOptions:\n{options_str}"
+                question = (
+                    f"{question}{self.SOLUTION_FORMAT_PROMPT}\nOptions:\n{options_str}"
+                )
 
             except Exception as e:
                 logging.warning(
@@ -132,7 +154,9 @@ class WeMathDataset(VisualTextBase):
                     e,
                 )
                 # Fallback to original string
-                question = f"{question}{self.SOLUTION_FORMAT_PROMPT}\nOptions:\n{options}"
+                question = (
+                    f"{question}{self.SOLUTION_FORMAT_PROMPT}\nOptions:\n{options}"
+                )
 
         cot_answer = sample.get("solution", "") or ""
 

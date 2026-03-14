@@ -1,5 +1,30 @@
 """
 Interface of the MathVision dataset.
+
+Dataset Source: https://huggingface.co/datasets/MathLLMs/MathVision
+
+Description:
+    A comprehensive benchmark with 3,040 high-quality mathematical problems with
+    visual contexts sourced from real math competitions. Covers 16 mathematical
+    disciplines and graded across 5 difficulty levels.
+
+Size: ~3,040 rows
+
+Splits:
+    - test: Full test set (3,040 examples)
+    - testmini: Smaller subset for development (1,000 examples)
+
+Features:
+    - id: Unique identifier
+    - question: The math problem with visual context
+    - answer: Final answer
+    - image: Associated image
+    - subject: Mathematical subject area
+    - level: Difficulty level (1-5)
+
+License: Not specified (see dataset repository)
+Language: English
+Paper: Measuring Multimodal Mathematical Reasoning with MATH-Vision Dataset
 """
 
 import os
@@ -61,7 +86,9 @@ class MathVisionDataset(VisualTextBase):
                         for letter, opt in zip(option_letters, options)
                     ]
                 )
-                question = f"{question}{self.SOLUTION_FORMAT_PROMPT}\nOptions:\n{options_str}"
+                question = (
+                    f"{question}{self.SOLUTION_FORMAT_PROMPT}\nOptions:\n{options_str}"
+                )
             except Exception as e:
                 logging.warning(
                     "Failed to parse options for sample %s: %s",

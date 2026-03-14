@@ -1,5 +1,28 @@
 """
 Interface of the MATH dataset.
+
+Dataset Source: https://huggingface.co/datasets/DigitalLearningGmbH/MATH-lighteval
+
+Description:
+    A collection of ~12,500 challenging competition math problems with detailed
+    step-by-step solutions. Covers various math topics from AMC, AIME, and other
+    math competitions.
+
+Size: ~12,500 rows
+
+Splits:
+    - train: ~7,500 examples
+    - test: ~5,000 examples
+
+Features:
+    - problem: The math problem statement
+    - solution: Full step-by-step solution
+    - answer: Final answer (extracted from solution)
+    - level: Difficulty level (1-5)
+    - type: Math topic/category
+
+License: MIT
+Language: English
 """
 
 from math_verify import LatexExtractionConfig, parse

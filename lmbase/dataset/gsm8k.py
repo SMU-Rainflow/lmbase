@@ -1,7 +1,30 @@
 """
 Interface of the GSM8K dataset.
 
-The "main" set of the GSM8K dataset is downloaded by default. These the training, validation, and test splits.
+Dataset Source: https://huggingface.co/datasets/openai/gsm8k
+
+Description:
+    A collection of ~8,500 high-quality grade school math word problems designed
+    for question-answering tasks involving multi-step reasoning. Problems require
+    2 to 8 steps to solve using elementary operations.
+
+Size: ~4.68 MB
+
+Configurations:
+    - main: Default configuration with train/test splits
+    - socratic: Socratic variant with guided reasoning
+    Config setting in code: subset="main" or subset="socratic"
+
+Splits:
+    - train: ~7,473 examples
+    - test: ~1,319 examples
+
+Features:
+    - question: The math word problem
+    - answer: Full solution with final answer marked by ####
+
+License: MIT
+Language: English
 """
 
 from datasets import load_dataset

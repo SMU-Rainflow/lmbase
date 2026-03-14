@@ -1,5 +1,27 @@
 """
 Interface of the DAPO-Math-17k dataset.
+
+Dataset Source: https://huggingface.co/datasets/BytedTsinghua-SIA/DAPO-Math-17k
+
+Description:
+    A dataset of ~17,000 carefully annotated math problems with integer answers,
+    designed for large-scale reinforcement learning (RL) of language models.
+    Created by ByteDance, Tsinghua University, and Hong Kong University.
+
+Size: ~310 MB, ~17,000 rows (original), ~1.8M rows (expanded)
+
+Splits:
+    - train: Training set
+
+Features:
+    - problem: The math problem
+    - answer: Integer answer
+    - extra_info: Additional metadata
+    - reward_model: Ground truth for reward calculation
+
+License: Apache-2.0
+Language: English
+Note: Dataset size discrepancy exists between original (17k) and HF version (1.8M)
 """
 
 import re

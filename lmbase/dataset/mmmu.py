@@ -1,5 +1,33 @@
 """
 Interface of the MMMU dataset.
+
+Dataset Source: https://huggingface.co/datasets/lmms-lab/MMMU
+
+Description:
+    A comprehensive multimodal benchmark for evaluating multimodal models across
+    6 disciplines (Art & Design, Business, Science, Health & Medicine, Humanities
+    & Social Science, Technology & Engineering) with college-level knowledge.
+
+Size: ~11,600 rows
+
+Splits:
+    - train: Training set
+    - validation: Validation set
+    - test: Test set (answers not publicly released)
+
+Features:
+    - question: The question text
+    - options: Multiple choice options (A, B, C, D, E, F)
+    - answer: Correct answer
+    - explanation: Detailed explanation
+    - image_1 to image_7: Associated images
+    - question_type: Type of question
+    - subfield: Subject subfield
+    - topic_difficulty: Difficulty level
+    - img_type: Image type
+
+License: Not specified (see dataset repository)
+Language: English
 """
 
 import os

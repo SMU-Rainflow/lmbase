@@ -1,5 +1,39 @@
 """
 Interface of the ScienceQA dataset.
+
+Dataset Source: https://huggingface.co/datasets/lmms-lab/ScienceQA
+
+Description:
+    A multimodal science question-answering dataset covering diverse science topics
+    with images, questions, and detailed explanations.
+
+Size: ~8,480 rows (FULL), ~4,110 rows (IMG)
+
+Configurations:
+    - ScienceQA-FULL: Full dataset with all examples
+    - ScienceQA-IMG: Subset with image examples only
+    Config setting in code: subset="ScienceQA-FULL" or subset="ScienceQA-IMG"
+
+Splits:
+    - train: Training set
+    - validation: Validation set
+    - test: Test set
+
+Features:
+    - question: The science question
+    - choices: Multiple choice options
+    - answer: Correct answer index
+    - image: Associated image
+    - lecture: Background lecture text
+    - solution: Detailed solution explanation
+    - grade: Grade level
+    - subject: Subject area
+    - topic: Specific topic
+    - category: Question category
+    - skill: Required skill
+
+License: Not specified (see dataset repository)
+Language: English
 """
 
 import os

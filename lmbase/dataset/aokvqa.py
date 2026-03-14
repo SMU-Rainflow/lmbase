@@ -1,5 +1,30 @@
 """
 Interface of the A-OKVQA dataset.
+
+Dataset Source: https://huggingface.co/datasets/HuggingFaceM4/A-OKVQA
+
+Description:
+    A-OKVQA (Outside Knowledge VQA) is a dataset for visual question answering
+    requiring outside knowledge beyond the image. Contains ~25K questions that
+    require commonsense reasoning and external knowledge.
+
+Size: ~1.33 GB, ~24,903 rows
+
+Splits:
+    - train: ~17,056 examples
+    - validation: ~1,145 examples
+    - test: ~6,702 examples
+
+Features:
+    - question: The question text
+    - choices: Multiple choice options
+    - answer: Correct answer
+    - rationale: Explanation requiring outside knowledge
+    - image: Associated image
+    - difficulty: Difficulty level
+
+License: Not specified (see dataset repository)
+Language: English
 """
 
 import os

@@ -1,5 +1,35 @@
 """
 Interface of the We-Math-2.0-Pro dataset.
+
+Dataset Source: https://huggingface.co/datasets/We-Math/We-Math2.0-Pro
+
+Description:
+    We-Math 2.0 Pro is a comprehensive challenging dataset designed to enhance
+    mathematical reasoning capabilities of multimodal large language models.
+    Features a three-dimensional difficulty space with 7 progressive variants per
+    problem, covering 491 knowledge points and 1,819 fundamental principles.
+
+Size: ~97.4 MB, ~4,552 rows
+
+Configurations:
+    - default: Default configuration
+    - pro: Professional difficulty configuration
+    Config setting in code: subset="default" or subset="pro"
+
+Splits:
+    - default: ~4,552 examples
+    - pro: Professional level subset
+
+Features:
+    - question: The math problem
+    - answer: Final answer
+    - image: Associated image
+    - knowledge_point: Related knowledge point
+    - difficulty: Difficulty level
+
+License: CC BY-NC 4.0
+Language: English
+Paper: arXiv:2508.10433
 """
 
 import os
