@@ -38,6 +38,9 @@ data_factory = {
     "hotpotqa": ("lmbase.dataset.hotpotqa", "HotpotQADataset"),
     "multihoprag": ("lmbase.dataset.multihoprag", "MultiHopRAGDataset"),
     "concurrentqa": ("lmbase.dataset.concurrentqa", "ConcurrentQADataset"),
+    "docfinqa": ("lmbase.dataset.docfinqa", "DocFinQADataset"),
+    "finder": ("lmbase.dataset.finder", "FinDERDataset"),
+    "narrativeqa": ("lmbase.dataset.narrativeqa", "NarrativeQADataset"),
 }
 
 
@@ -75,6 +78,9 @@ hf_datasets = {
     "hotpotqa": "hotpotqa/hotpot_qa",
     "multihoprag": "yixuantt/MultiHopRAG",
     "concurrentqa": "stanfordnlp/concurrentqa-retrieval",
+    "docfinqa": "kensho/DocFinQA",
+    "finder": "Linq-AI-Research/FinDER",
+    "narrativeqa": "meithnav/narrativeqa",
 }
 
 
