@@ -41,6 +41,8 @@ data_factory = {
     "docfinqa": ("lmbase.dataset.docfinqa", "DocFinQADataset"),
     "finder": ("lmbase.dataset.finder", "FinDERDataset"),
     "narrativeqa": ("lmbase.dataset.narrativeqa", "NarrativeQADataset"),
+    "stark": ("lmbase.dataset.stark", "STaRKDataset"),
+    "vfinancebench": ("lmbase.dataset.vfinancebench", "VFinanceBenchDataset"),
 }
 
 
@@ -81,6 +83,8 @@ hf_datasets = {
     "docfinqa": "kensho/DocFinQA",
     "finder": "Linq-AI-Research/FinDER",
     "narrativeqa": "meithnav/narrativeqa",
+    "stark": "snap-stanford/stark",
+    "vfinancebench": "virattt/financebench",
 }
 
 
