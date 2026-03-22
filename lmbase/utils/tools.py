@@ -239,6 +239,57 @@ class BlockBasedStoreManager:
         os.makedirs(self.folder, exist_ok=True)
 
     @staticmethod
+    def load_id_data(folder: str, id_str: str = None) -> tuple:
+        """
+        Load data from a folder containing block-based storage.
+
+        This static method automatically finds the store information file in the folder,
+        then optionally loads a specific record by ID.
+
+        Args:
+            folder: Directory containing the block files and store information.
+            id_str: Optional record ID to load (e.g., "results_123"). If provided, attempts
+                to find and return the specific record data.
+
+        Returns:
+            A tuple of (info, id_data):
+            - info: The full info dictionary from the store-information file, or None if not found.
+            - id_data: The stored data for the specified ID, or None if id_str not provided or not found.
+
+        Example:
+            info, data = BlockBasedStoreManager.load_id_data("EXPERIMENT/data", "task_42")
+            info, _ = BlockBasedStoreManager.load_id_data("EXPERIMENT/data")
+        """
+        # Find store-information.json file in folder
+        info_file = None
+        if os.path.exists(folder):
+            for filename in os.listdir(folder):
+                if re.match(r".*-store-information\.json$", filename):
+                    info_file = os.path.join(folder, filename)
+                    break
+
+        if info_file is None:
+            return None, None
+
+        with open(info_file, "r", encoding="utf-8") as f:
+            info = json.load(f)
+
+        # If no id_str specified, return info only
+        if id_str is None:
+            return info, None
+
+        # Find which block contains the ID
+        for block_filename, block_data in info.items():
+            if id_str in block_data["ids"]:
+                block_path = block_data["path"]
+                if os.path.exists(block_path):
+                    with open(block_path, "r", encoding="utf-8") as f:
+                        block_content = json.load(f)
+                    return info, block_content[id_str]
+
+        return info, None
+
+    @staticmethod
     def _extract_base(savename: str) -> str:
         """
         Extract the base grouping key from a record name.

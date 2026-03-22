@@ -120,6 +120,23 @@ class InferOutput(BaseContainer):
     extras: Dict[str, Any] = None
 
 
+@dataclass
+class InferBatchOutput(BaseContainer):
+    """
+    Batch output structure for multiple LLM inference responses.
+
+    This class holds a collection of individual InferOutput results along with
+    aggregated batch-level statistics.
+
+    Attributes:
+        outputs: List of individual InferOutput objects, one per input.
+        total_time_used: Total time for processing the entire batch.
+    """
+
+    outputs: List[InferOutput]
+    total_time_used: float
+
+
 class BaseLMAPIInference(ABC):
     """
     Base class for the large model inference based on the APIs.
@@ -144,19 +161,35 @@ class BaseLMAPIInference(ABC):
         For example, use the ChatPromptTemplate.
         """
 
-    def run(self, infer_inputs: List[InferInput], **kwargs) -> InferOutput:
-        """Run the synthesizer on the data samples."""
-        infer_input = infer_inputs[0]
-        # convert the input to the target messages required by different APIs.
-        messages = (
-            infer_input.messages
-            if infer_input.messages is not None
-            else self._create_messages(infer_input, **kwargs)
-        )
+    def run(self, infer_inputs: List[InferInput], **kwargs) -> InferBatchOutput:
+        """Run the synthesizer on the data samples.
+
+        Args:
+            infer_inputs: List of inference inputs to process.
+            **kwargs: Additional arguments passed to _create_messages and _inference.
+
+        Returns:
+            InferBatchOutput containing all outputs and aggregated statistics.
+        """
         start = time.time()
-        output = self._inference(messages)
-        output.cost.time_used = time.time() - start
-        return output
+        outputs = []
+
+        for infer_input in infer_inputs:
+            # Convert the input to the target messages required by different APIs.
+            messages = (
+                infer_input.messages
+                if infer_input.messages is not None
+                else self._create_messages(infer_input, **kwargs)
+            )
+            output = self._inference(messages)
+            outputs.append(output)
+
+        total_time = time.time() - start
+
+        return InferBatchOutput(
+            outputs=outputs,
+            total_time_used=total_time,
+        )
 
     @abstractmethod
     def _inference(
