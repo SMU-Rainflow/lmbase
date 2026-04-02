@@ -2,18 +2,18 @@
 # TEMPLATE-TOPOLOGY: Topology Configuration Template
 # =============================================================================
 # Defines agent interaction patterns and message routing.
-# 
+#
 # Topology Types:
 #   - "linear":    Sequential chain A → B → C → ...
 #   - "star":      Central hub with spokes (hub ↔ agent1, hub ↔ agent2, ...)
 #   - "dag":       Directed acyclic graph with explicit connections
-#   - "loop":      Cyclic graph for iterative refinement (e.g., Planner ↔ Reasoner)
+#   - "loop":      Cyclic graph for iterative refinement (e.g., Agent A ↔ Agent B)
 #   - "fan":       One-to-many broadcast (Agent A → Agents B1, B2, B3, ...)
 #   - "single":    Single agent only (no connections)
 #
 # Agent Keys:
-#   - Use base agent keys here (e.g., "Planner", "Reasoner")
-#   - Agents with num_instances > 1 are auto-expanded to Planner_1, Planner_2, ...
+#   - Use agent identifiers matching agents.yml (e.g., "Agent_1", "Agent_2")
+#   - Agents with num_instances > 1 are auto-expanded to Agent_1_1, Agent_1_2, ...
 #   - Connection rules apply to all instances automatically
 # =============================================================================
 
@@ -36,20 +36,22 @@ type: "loop"
 # BLOCK 3: Source Agents
 # =============================================================================
 # Agents that can initiate conversations (entry points)
+# Note: Agent names below are PLACEHOLDERS - replace with your agent names.
 sources:
-  - Planner
+  - Agent_1
 
 # =============================================================================
 # BLOCK 4: Connection Graph
 # =============================================================================
 # Defines which agents can communicate with which
 # Format: AgentName: [List of reachable agents]
+# Note: Agent names below are PLACEHOLDERS - replace with your agent names.
 connections:
-  Planner:
-    - Reasoner
+  Agent_1:
+    - Agent_2
   
-  Reasoner:
-    - Planner
+  Agent_2:
+    - Agent_1
 
 # =============================================================================
 # BLOCK 5: Advanced Routing (Optional)
@@ -57,6 +59,6 @@ connections:
 # For "dag" type: define edge weights or conditions
 # For "star" type: define the central hub
 # routing:
-#   hub: "Planner"
+#   hub: "Agent_1"
 #   weights:
-#     Planner-Reasoner: 1.0
+#     Agent_1-Agent_2: 1.0

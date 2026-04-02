@@ -1,128 +1,152 @@
 # =============================================================================
 # Agents Configuration Template
 # =============================================================================
+# Purpose:
+#   Defines agent instances for multi-agent systems.
+#   Contains ONLY INFERENCE-related settings.
+#
+# Architecture:
+#   This file is a STRUCTURAL TEMPLATE - agent names are placeholders.
+#   Replace agent identifiers (Agent_1, Agent_2) with your actual agent names.
+#
 # Agent Schema:
-#   name: "AgentName"                    # Display name (required)
-#   class: "module.path:ClassName"       # Python class path (required)
-#   num_instances: 1                     # Number of instances (default: 1)
-#   trainable: true                      # Whether policy is trainable (RL only)
-#   config:                              # Agent-specific config (required)
-#     model:                             # Model settings
-#       lm_type: "huggingface"           # "api", "huggingface", "vllm", "none"
-#       lm_name: "model-identifier"      # Model name or path
-#       use_value_head: true             # Attach value head for PPO (trainable agents)
-#     inference_config: {...}            # Device, dtype, entropy settings
-#     generation_config: {...}           # Temperature, max_tokens, etc.
-#     latent_config: {...}               # Latent reasoning configuration (optional)
-#     sys_message: "module:VAR"          # System prompt reference
-#     user_message: "module:VAR"         # User prompt reference
-#     lora: {...}                        # LoRA settings
-#     train: {...}                       # Training hyperparameters
+#   {AgentName}:                         # Unique agent identifier
+#     name: "Display Name"              # Human-readable name (required)
+#     class: "module.path:ClassName"    # Python class path (required)
+#     num_instances: 1                  # Number of parallel instances (default: 1)
+#     config:                           # Agent-specific configuration (required)
+#       model:                          # Model settings
+#         lm_type: "huggingface"        # "api", "huggingface", "vllm", "none"
+#         lm_name: "model-id"           # Model identifier or path
+#       inference_config: {...}         # Runtime settings (dtype, entropy)
+#       generation_config: {...}        # Generation parameters
+#       sys_message: "module:VAR"       # System prompt reference
+#       user_message: "module:VAR"      # User prompt reference
+#       latent_config: {...}            # Latent reasoning (optional, add when needed)
+#
+# Separation of Concerns:
+#   - agents.yml:    Inference settings (model, generation, prompts)
+#   - training.yml:  Training settings (trainable, lora, lr, epochs)
 # =============================================================================
 
-Planner:
-  name: "Planner"
-  class: "eparl.agent_base:PlannerAgent"
+# =============================================================================
+# Example Agent 1 - Complete Structure
+# =============================================================================
+# This shows the complete structure for a HuggingFace-based agent.
+# Copy and modify for your specific agents. Replace "Agent_1" with your name.
+# =============================================================================
+Agent_1:
+  name: "Agent_1"
+  class: "your.module.path:YourAgentClass"
   num_instances: 1
-  trainable: true
   
   config:
+    # -------------------------------------------------------------------------
+    # Model Configuration
+    # -------------------------------------------------------------------------
     model:
       lm_type: "huggingface"
       lm_name: "Qwen/Qwen2.5-0.5B-Instruct"
-      use_value_head: true
     
+    # -------------------------------------------------------------------------
+    # Inference Configuration
+    # -------------------------------------------------------------------------
+    # Runtime settings for model inference.
+    # Note: Device is configured in main.yml environment.device_map.
+    # -------------------------------------------------------------------------
     inference_config:
-      # Device selection: "auto", "cpu", "cuda", "mps"
-      device: "auto"
+      torch_dtype: "auto"      # "float32", "float16", "bfloat16", "auto"
       
-      # Data type: "float32", "float16", "bfloat16", "auto"
-      torch_dtype: "auto"
-      
-      # Entropy computation configuration for KV analysis
+      # Entropy computation (optional, for analysis purposes)
       entropy_config:
-        topk_v: inf          # Top-k value for entropy calculation (inf = all tokens)
-        topk_adaptive: false # Whether to use adaptive top-k
-        temperature: 0.0     # Temperature for entropy calculation
+        topk_v: inf            # Top-k for entropy (inf = all tokens)
+        topk_adaptive: false   # Adaptive top-k selection
+        temperature: 0.0       # Temperature for entropy calculation
     
+    # -------------------------------------------------------------------------
+    # Generation Configuration
+    # -------------------------------------------------------------------------
+    # Parameters passed to model.generate() or equivalent API calls
+    # -------------------------------------------------------------------------
     generation_config:
-      max_new_tokens: 128
-      temperature: 0.7
-      top_p: 0.9
-      do_sample: true
+      max_new_tokens: 128      # Maximum tokens to generate
+      temperature: 0.7         # Sampling temperature (higher = more random)
+      top_p: 0.9               # Nucleus sampling threshold
+      do_sample: true          # Enable sampling (false = greedy)
     
-    # Latent reasoning configuration (optional, set latent_steps > 0 to enable)
-    latent_config:
-      latent_steps: 0        # Number of latent reasoning steps (0 = disabled)
-      tail_truncate_n: 0     # Keep N tokens from end (0 = no truncation)
-      head_truncate_n: 0     # Keep N tokens from beginning (0 = no truncation)
-      truncate_mode: "target"  # Truncation mode: "target", "latent_only", "sequential", "last_n"
-      add_think: false       # Whether to add <think> tokens
+    # -------------------------------------------------------------------------
+    # Prompt Configuration
+    # -------------------------------------------------------------------------
+    # References to prompt templates. Format: "module.path:VARIABLE_NAME"
+    # -------------------------------------------------------------------------
+    sys_message: "your.module:SYS_PROMPT"
+    user_message: "your.module:USER_PROMPT"
     
-    sys_message: "examples.prompts.planner:PR_PLANNER_SYS"
-    user_message: "examples.prompts.planner:PR_PLANNER_USER"
-    
-    lora:
-      r: 8
-      lora_alpha: 16
-      lora_dropout: 0.1
-    
-    train:
-      learning_rate: 1.0e-5
-      clip_ratio: 0.2
-      entropy_coef: 0.0
-      mini_batch_size: 4
-      ppo_epochs: 4
-      gamma: 0.99
-      lam: 0.95
+    # -------------------------------------------------------------------------
+    # Latent Reasoning Configuration (Optional - add when needed)
+    # -------------------------------------------------------------------------
+    # Enable for latent chain-of-thought reasoning methods.
+    # Uncomment and configure below only if your model/method supports it.
+    # -------------------------------------------------------------------------
+    # latent_config:
+    #   latent_steps: 0          # Number of latent steps (> 0 to enable)
+    #   tail_truncate_n: 0       # Keep N tokens from end
+    #   head_truncate_n: 0       # Keep N tokens from beginning
+    #   truncate_mode: "target"  # Truncation strategy
+    #   add_think: false         # Add special think tokens
 
-Reasoner:
-  name: "Reasoner"
-  class: "eparl.agent_base:ReasonerAgent"
+# =============================================================================
+# Example Agent 2 - Complete Structure (API-based)
+# =============================================================================
+# Shows complete structure for an API-based agent.
+# Copy and modify for your specific agents. Replace "Agent_2" with your name.
+# =============================================================================
+Agent_2:
+  name: "Agent_2"
+  class: "your.module.path:YourAgentClass"
   num_instances: 1
-  trainable: true
   
   config:
+    # -------------------------------------------------------------------------
+    # Model Configuration
+    # -------------------------------------------------------------------------
     model:
-      lm_type: "huggingface"
-      lm_name: "Qwen/Qwen2.5-0.5B-Instruct"
-      use_value_head: true
+      lm_type: "api"         # API-based model (OpenAI, Anthropic, etc.)
+      lm_name: "gpt-4"
     
-    inference_config:
-      device: "auto"
-      torch_dtype: "auto"
-      
-      entropy_config:
-        topk_v: inf
-        topk_adaptive: false
-        temperature: 0.0
+    # -------------------------------------------------------------------------
+    # Inference Configuration
+    # -------------------------------------------------------------------------
+    # Note: For API-based models, device/torch_dtype/entropy_config are not
+    # applicable. Omit inference_config entirely for API agents, or configure
+    # only the fields relevant to your API client.
+    # -------------------------------------------------------------------------
+    # inference_config:  # Uncomment and add fields if your API client needs them
     
+    # -------------------------------------------------------------------------
+    # Generation Configuration
+    # -------------------------------------------------------------------------
     generation_config:
-      max_new_tokens: 128
+      max_new_tokens: 256
       temperature: 0.7
       top_p: 0.9
-      do_sample: true
+      # do_sample: not applicable for API models; omit or replace with API-specific params
     
-    latent_config:
-      latent_steps: 0
-      tail_truncate_n: 0
-      head_truncate_n: 0
-      truncate_mode: "target"
-      add_think: false
+    # -------------------------------------------------------------------------
+    # Prompt Configuration
+    # -------------------------------------------------------------------------
+    sys_message: "your.module:SYS_PROMPT"
+    user_message: "your.module:USER_PROMPT"
     
-    sys_message: "examples.prompts.reasoner:PR_REASONER_SYS"
-    user_message: "examples.prompts.reasoner:PR_REASONER_USER"
-    
-    lora:
-      r: 8
-      lora_alpha: 16
-      lora_dropout: 0.1
-    
-    train:
-      learning_rate: 1.0e-5
-      clip_ratio: 0.2
-      entropy_coef: 0.0
-      mini_batch_size: 4
-      ppo_epochs: 4
-      gamma: 0.99
-      lam: 0.95
+    # -------------------------------------------------------------------------
+    # Latent Reasoning Configuration (Optional - add when needed)
+    # -------------------------------------------------------------------------
+    # For API models, latent reasoning is typically not applicable.
+    # Uncomment and configure below only if your model/method supports it.
+    # -------------------------------------------------------------------------
+    # latent_config:
+    #   latent_steps: 0
+    #   tail_truncate_n: 0
+    #   head_truncate_n: 0
+    #   truncate_mode: "target"
+    #   add_think: false

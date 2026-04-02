@@ -1,0 +1,205 @@
+# =============================================================================
+# TEMPLATE-MAIN: Multi-Agent Experiment Configuration Template
+# =============================================================================
+# Purpose:
+#   Master configuration for multi-agent learning experiments.
+#   This template defines the overall experiment structure, with modular
+#   components included from separate files.
+#
+# Supported Paradigms:
+#   - Reinforcement Learning (PPO, etc.)
+#   - Supervised Fine-tuning (SFT)
+#   - Other custom training methods
+#
+# =============================================================================
+# !!! ARCHITECTURAL CONSTRAINT - READ CAREFULLY !!!
+# =============================================================================
+# DO NOT add additional top-level blocks to this configuration.
+# The template provides exactly 7 blocks - no more, no less:
+#   data, environment, agents, topology, training, log, evaluation
+#
+# If you need additional configuration:
+#   - Add fields INSIDE existing blocks (e.g., add custom fields under 'data')
+#   - Extend included files (e.g., add fields in agents.yml, training.yml)
+#
+# This constraint ensures config parsing consistency and framework compatibility.
+# =============================================================================
+#
+# Structure:
+#   1. data        - Dataset configuration (name, path, split, subset)
+#   2. environment - Runtime environment (seed, device mapping)
+#   3. agents      - Agent definitions (included from agents.yml)
+#   4. topology    - Agent interaction topology (included from topology.yml)
+#   5. training    - Agent training settings (included from training.yml)
+#   6. log         - Logging, checkpointing, and output configuration
+#   7. evaluation  - Evaluation datasets and metrics
+#
+# Usage:
+#   Copy this template and modify for your specific experiment.
+#   - Inference settings: agents.yml
+#   - Training settings:  training.yml
+#   - Topology settings:  topology.yml
+# =============================================================================
+
+# =============================================================================
+# BLOCK 1: Data Configuration
+# =============================================================================
+# Dataset settings for training. For datasets requiring subset configuration
+# (e.g., HotpotQA with "distractor"/"fullwiki", STaRK with "amazon"/"mag"/"prime"),
+# use the subset field below.
+# =============================================================================
+data:
+  # Dataset identifier - must match registry key in lmbase/dataset/registry.py
+  # Note: This is a PLACEHOLDER - replace with your dataset name.
+  # Examples: "GSM8K", "hotpotqa", "stark", "financebench"
+  data_name: "YourDataset"
+  
+  # Local path for storing dataset cache and demo samples
+  # Convention: "EXPERIMENT/data/{dataset_name}"
+  data_path: "EXPERIMENT/data/YourDataset"
+  
+  # Dataset split to use for training
+  # Common values: "train", "synthesized_all_split" (for STaRK)
+  split: "train"
+  
+  # Subset configuration (optional)
+  # Required for datasets with multiple configurations:
+  #   - hotpotqa: "distractor" or "fullwiki"
+  #   - stark: "amazon", "mag", or "prime"
+  #   - aime2025: "AIME2025-I" or "AIME2025-II"
+  #   - arc: "ARC-Challenge" or "ARC-Easy"
+  # Leave empty or omit for datasets without subset requirements.
+  subset: ""
+
+# =============================================================================
+# BLOCK 2: Environment Configuration
+# =============================================================================
+# Runtime environment settings including random seed and device mapping.
+# Device mapping allows explicit control over which devices each agent uses.
+# =============================================================================
+environment:
+  # Path to environment variables file (API keys, etc.)
+  dotenv_path: ".env"
+  
+  # Random seed for reproducibility
+  # Affects: torch, numpy, random, and any framework-level seeding
+  seed: 42
+  
+  # Device mapping for agents and their models
+  # Map agent names to device specifications.
+  #
+  # Priority system for device allocation (when device: "auto"):
+  #   - Lower priority number = higher priority = gets GPU with more free memory
+  #   - Example: priority: 1 gets best GPU, priority: 2 gets next best
+  #
+  # Each agent can specify:
+  #   - device:    Target device ("auto", "cpu", "cuda", "cuda:0", "mps")
+  #   - priority:  Allocation priority when device: "auto" (lower = higher priority)
+  #   - fallback:  Fallback device if primary unavailable (optional)
+  #
+  # Note: Agent names below are PLACEHOLDERS - replace with your actual agent names.
+  device_map:
+    Agent_1:
+      device: "auto"
+      priority: 1              # Higher priority - gets GPU with more free memory
+    Agent_2:
+      device: "auto"
+      priority: 2              # Lower priority than Agent_1
+
+# =============================================================================
+# BLOCK 3: Agents Configuration
+# =============================================================================
+# Agent definitions are in agents.yml for modularity.
+# Each agent has its own:
+#   - model.lm_name: Model identifier (e.g., "Qwen/Qwen2.5-0.5B-Instruct")
+#   - model.lm_type: Model type ("huggingface", "api", "vllm", "none")
+#   - inference_config: Dtype, entropy settings (device in environment.device_map)
+#   - generation_config: Temperature, max_tokens, top_p, etc.
+#   - latent_config: Latent reasoning steps (if applicable)
+#   - sys_message/user_message: Prompt references
+#
+# See agents.yml for detailed agent configuration.
+# =============================================================================
+agents: !include "agents.yml"
+
+# =============================================================================
+# BLOCK 4: Topology Configuration
+# =============================================================================
+# Defines how agents interact with each other in the multi-agent system.
+# See topology.yml for detailed configuration.
+# =============================================================================
+topology: !include "topology.yml"
+
+# =============================================================================
+# BLOCK 5: Training Configuration
+# =============================================================================
+# Agent training settings: general training params, per-agent settings keyed
+# by agent name (trainable, use_value_head, lora, lr, ppo), and optional RL settings.
+# See training.yml for detailed configuration.
+# =============================================================================
+training: !include "training.yml"
+
+# =============================================================================
+# BLOCK 6: Log Configuration
+# =============================================================================
+# Logging, checkpointing, and output settings.
+# =============================================================================
+log:
+  # Output directory for experiment results
+  # Convention: "EXPERIMENT/{framework}/{experiment_name}"
+  # Note: This is a PLACEHOLDER - replace with your experiment path.
+  save_folder: "EXPERIMENT/YourFramework/YourExperiment"
+  
+  # Logging verbosity level
+  # Options: "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"
+  log_level: "INFO"
+  
+  # =========================================================================
+  # Step Intervals (all values are TRAINING STEPS)
+  # =========================================================================
+  # A training step is one gradient update (one batch processed).
+  # These intervals control how often to log/save during training.
+  # Example: checkpoint_step_interval: 100 saves checkpoint every 100 steps.
+  # =========================================================================
+  
+  # Checkpoint save interval (in training steps)
+  # Saves model checkpoint every N training steps
+  # Set to 0 or negative to disable checkpointing
+  checkpoint_step_interval: 100
+  
+  # Metrics logging interval (in training steps)
+  # Logs training metrics (loss, reward, accuracy, etc.) every N steps
+  log_step_interval: 10
+
+# =============================================================================
+# BLOCK 7: Evaluation Configuration
+# =============================================================================
+# Settings for periodic evaluation during training.
+# Evaluation runs on held-out test sets to measure generalization.
+# =============================================================================
+evaluation:
+  # Enable/disable periodic evaluation
+  enabled: true
+  
+  # Evaluation interval (in training steps)
+  # Runs evaluation every N training steps
+  eval_step_interval: 100
+  
+  # Evaluation datasets configuration
+  # Each dataset entry specifies:
+  #   - name: Display name for logging
+  #   - path: Local cache path
+  #   - split: Dataset split (typically "test" or "validation")
+  #   - num_samples: Number of samples to evaluate (null for full set)
+  # Note: Dataset names below are PLACEHOLDERS - replace with your dataset.
+  datasets:
+    - name: "YourDataset_test"
+      path: "EXPERIMENT/data/YourDataset"
+      split: "test"
+      num_samples: 100
+  
+  # Metrics to compute during evaluation
+  # Available metrics depend on dataset and task type
+  # Examples: "accuracy", "f1", "bleu", "format_correctness"
+  metrics:
+    - "accuracy"
