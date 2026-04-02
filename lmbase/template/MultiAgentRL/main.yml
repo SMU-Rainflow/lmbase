@@ -39,6 +39,16 @@
 #   - Inference settings: agents.yml
 #   - Training settings:  training.yml
 #   - Topology settings:  topology.yml
+#
+# YAML Anchors & Aliases (for value reuse):
+#   Use &anchor to define a reusable value, *alias to reference it.
+#   Example:
+#     common_params: &common
+#       batch_size: 1
+#       learning_rate: 1e-5
+#     training:
+#       <<: *common
+#       num_epochs: 3
 # =============================================================================
 
 # =============================================================================
