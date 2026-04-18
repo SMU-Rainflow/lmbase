@@ -43,6 +43,7 @@ data_factory = {
     "narrativeqa": ("lmbase.dataset.narrativeqa", "NarrativeQADataset"),
     "stark": ("lmbase.dataset.stark", "STaRKDataset"),
     "vfinancebench": ("lmbase.dataset.vfinancebench", "VFinanceBenchDataset"),
+    "gaia": ("lmbase.dataset.gaia", "GAIADataset"),
 }
 
 
@@ -85,6 +86,7 @@ hf_datasets = {
     "narrativeqa": "meithnav/narrativeqa",
     "stark": "snap-stanford/stark",
     "vfinancebench": "virattt/financebench",
+    "gaia": "gaia-benchmark/GAIA",
 }
 
 
