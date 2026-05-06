@@ -4,7 +4,6 @@ An interface to registry the datasets.
 
 import logging
 
-
 data_factory = {
     "gsm8k": ("lmbase.dataset.gsm8k", "GSM8KDataset"),
     "math": ("lmbase.dataset.math", "MATHDataset"),
@@ -44,6 +43,7 @@ data_factory = {
     "stark": ("lmbase.dataset.stark", "STaRKDataset"),
     "vfinancebench": ("lmbase.dataset.vfinancebench", "VFinanceBenchDataset"),
     "gaia": ("lmbase.dataset.gaia", "GAIADataset"),
+    "fincot": ("lmbase.dataset.fincot", "FinCoTDataset"),
 }
 
 
@@ -87,6 +87,7 @@ hf_datasets = {
     "stark": "snap-stanford/stark",
     "vfinancebench": "virattt/financebench",
     "gaia": "gaia-benchmark/GAIA",
+    "fincot": "TheFinAI/FinCoT",
 }
 
 
