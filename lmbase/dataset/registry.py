@@ -44,6 +44,7 @@ data_factory = {
     "vfinancebench": ("lmbase.dataset.vfinancebench", "VFinanceBenchDataset"),
     "gaia": ("lmbase.dataset.gaia", "GAIADataset"),
     "fincot": ("lmbase.dataset.fincot", "FinCoTDataset"),
+    "codeforcescots": ("lmbase.dataset.codeforcescots", "CodeForcesCoTSDataset"),
 }
 
 
@@ -88,6 +89,7 @@ hf_datasets = {
     "vfinancebench": "virattt/financebench",
     "gaia": "gaia-benchmark/GAIA",
     "fincot": "TheFinAI/FinCoT",
+    "codeforcescots": "open-r1/codeforces-cots",
 }
 
 

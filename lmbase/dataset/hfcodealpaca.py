@@ -28,22 +28,40 @@ class CodeAlpacaDataset(VisualTextBase):
     """A consistent interface for the hfCodeAlpaca dataset."""
 
     def to_format(self, sample):
-        """Get the sample from the given idx."""
+        """Convert raw sample to standardized format.
+
+        Field mapping (hfcodealpaca.py 30-55):
+            instruction/prompt -> question (task description)
+            input              -> question (appended as context, if present)
+            output/completion  -> groundtruth
+            (no CoT)           -> cot_answer = ""
+        """
         self.idx += 1
 
-        # Create the sample; handle both instruction/output and prompt/completion schemas.
+        # Handle both instruction/output and prompt/completion schemas
         if "instruction" in sample:
-            problem = sample["instruction"]
+            question = sample["instruction"]
             groundtruth = sample.get("output", "")
+            input_text = sample.get("input") or ""
         else:
-            problem = sample.get("prompt", "")
+            question = sample.get("prompt", "")
             groundtruth = sample.get("completion", "")
-        question = f"{problem}"
+            input_text = sample.get("input") or ""
+
+        # Append input context if present
+        if input_text:
+            question = f"{question}\nInput: {input_text}"
+
+        question = f"{question}{self.SOLUTION_FORMAT_PROMPT}"
+
         return TextCodeSample(
             main_id=f"ID{self.idx}",
             split=self.split,
             question=question,
             cot_answer="",
             groundtruth=groundtruth,
-            sample_info={"dataset": self.hf_dataname},
+            sample_info={
+                "dataset": self.hf_dataname,
+                "input": input_text,
+            },
         )

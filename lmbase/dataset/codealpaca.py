@@ -29,17 +29,32 @@ class CodeAlpacaDataset(VisualTextBase):
     """A consistent interface for the CodeAlpaca dataset."""
 
     def to_format(self, sample):
-        """Get the sample from the given idx."""
+        """Convert raw sample to standardized format.
+
+        Field mapping (codealpaca.py 31-48):
+            instruction -> question (task description)
+            input       -> question (appended as context, if present)
+            output      -> groundtruth
+            (no CoT)    -> cot_answer = ""
+        """
         self.idx += 1
 
-        # Create the sample
-        problem = sample["instruction"]
-        question = f"{problem}"
+        # Build question: instruction + optional input context
+        question = sample["instruction"]
+        input_text = sample.get("input") or ""
+        if input_text:
+            question = f"{question}\nInput: {input_text}"
+
+        question = f"{question}{self.SOLUTION_FORMAT_PROMPT}"
+
         return TextCodeSample(
             main_id=f"ID{self.idx}",
             split=self.split,
             question=question,
             cot_answer="",
             groundtruth=sample["output"],
-            sample_info={"dataset": self.hf_dataname},
+            sample_info={
+                "dataset": self.hf_dataname,
+                "input": input_text,
+            },
         )
