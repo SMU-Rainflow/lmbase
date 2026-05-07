@@ -45,6 +45,7 @@ data_factory = {
     "gaia": ("lmbase.dataset.gaia", "GAIADataset"),
     "fincot": ("lmbase.dataset.fincot", "FinCoTDataset"),
     "multiarith": ("lmbase.dataset.multiarith", "MultiArithDataset"),
+    "codeforcescots": ("lmbase.dataset.codeforcescots", "CodeForcesCoTSDataset"),
 }
 
 
@@ -90,6 +91,7 @@ hf_datasets = {
     "gaia": "gaia-benchmark/GAIA",
     "fincot": "TheFinAI/FinCoT",
     "multiarith": "ChilleD/MultiArith",
+    "codeforcescots": "open-r1/codeforces-cots",
 }
 
 
