@@ -1,6 +1,5 @@
 import io
 import os
-import re
 
 import setuptools
 
@@ -16,16 +15,9 @@ def get_requirements():
         return f.read().splitlines()
 
 
-def get_version():
-    current_dir = os.path.abspath(os.path.dirname(__file__))
-    version_file = os.path.join(current_dir, "lmbase", "__init__.py")
-    with io.open(version_file, encoding="utf-8") as f:
-        return re.search(r'^__version__ = [\'"]([^\'"]*)[\'"]', f.read(), re.M).group(1)
-
-
 setuptools.setup(
     name="lmbase-learn",
-    version=get_version(),
+    use_scm_version=True,
     author="",
     license="Apache-2.0",
     description="Packaged version of the lmbase platform for large model research",
