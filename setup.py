@@ -16,7 +16,7 @@ def get_requirements():
 
 
 setuptools.setup(
-    name="lmbase-learn",
+    name="lmbase",
     use_scm_version=True,
     author="",
     license="Apache-2.0",
